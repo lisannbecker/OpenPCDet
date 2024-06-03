@@ -40,6 +40,11 @@ class NuScenesDataset(DatasetTemplate):
                 continue
             with open(info_path, 'rb') as f:
                 infos = pickle.load(f)
+                a = False
+                for info in infos:
+                    if not a:
+                        print(info["token"])
+                        a = True
                 nuscenes_infos.extend(infos)
 
         self.infos.extend(nuscenes_infos)
@@ -416,7 +421,8 @@ if __name__ == '__main__':
 
     if args.func == 'create_nuscenes_infos':
         dataset_cfg = EasyDict(yaml.safe_load(open(args.cfg_file)))
-        ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve()
+        # ROOT_DIR = Path('/gpfs/scratch1/nodespecific/int5/scur2206')
+        ROOT_DIR = Path('/scratch-shared/scur2206')
         dataset_cfg.VERSION = args.version
         create_nuscenes_info(
             version=dataset_cfg.VERSION,
